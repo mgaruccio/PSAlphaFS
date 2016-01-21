@@ -1,1 +1,0 @@
-﻿AlphaCopy-Item
