@@ -14,7 +14,7 @@ Function Import-AlphaModule{
 #endregion
 
 #Will Emulate the copy-item command, currently basic file and directory copy's are implemented with the option to force
-Function AlphaCopy-Item{
+Function Copy-ItemAlpha{
     [cmdletbinding()]
     param(
       [parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true)]
@@ -45,7 +45,7 @@ Function AlphaCopy-Item{
 }
 
 #Will Emulate Remove-Item, currently basic file and directory delete's are implemented with a force option
-Function AlphaRemove-Item {
+Function Remove-ItemAlpha {
     [cmdletbinding()]
     param(
       [parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true)]
@@ -74,6 +74,6 @@ Function AlphaRemove-Item {
 
 #Using These will allow the helper functions to be hidden
 <#
-Export-ModuleMember AlphaCopy-Item
-Export-ModuleMember AlphaRemove-Item
+Export-ModuleMember Copy-ItemAlpha
+Export-ModuleMember Remove-ItemAlpha
 #>
