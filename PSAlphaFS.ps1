@@ -27,20 +27,10 @@ Function Copy-ItemAlpha{
 
     Import-AlphaModule
     if([Alphaleonis.Win32.Filesystem.File]::Exists($sourceFile)){
-        if($force){
-            [Alphaleonis.Win32.Filesystem.File]::Copy($sourceFile,$destinationFile,'overwrite=true')
-        
-        }else{
-            [Alphaleonis.Win32.Filesystem.File]::Copy($sourceFile,$destinationFile)        
-        }
+        [Alphaleonis.Win32.Filesystem.File]::Copy($sourceFile,$destinationFile,"overwrite=$force")        
     }
     if([Alphaleonis.Win32.Filesystem.Directory]::Exists($sourceFile)){
-        if($force){
-            [Alphaleonis.Win32.Filesystem.Directory]::Copy($sourceFile,$destinationFile,'overwrite=true')
-        
-        }else{
-            [Alphaleonis.Win32.Filesystem.Directory]::Copy($sourceFile,$destinationFile)        
-        }
+        [Alphaleonis.Win32.Filesystem.Directory]::Copy($sourceFile,$destinationFile,"overwrite=$force")       
     }
 }
 
@@ -51,24 +41,33 @@ Function Remove-ItemAlpha {
       [parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true)]
         $Path,
       [parameter(Mandatory=$False)]
-        [switch]$force
+        [switch]$force=$false,
+      [parameter(Mandatory=$false)]
+        [switch]$recurse=$false
     )
     Import-AlphaModule
     
-    if([Alphaleonis.Win32.Filesystem.File]::Exists($path)){
-        if($force){
-            [Alphaleonis.Win32.Filesystem.File]::Delete($path,"ignorereadonly=true")
-        }else{
-            [Alphaleonis.Win32.Filesystem.File]::Delete($path)
-        }
+    if([Alphaleonis.Win32.Filesystem.File]::Exists($path)){        
+        [Alphaleonis.Win32.Filesystem.File]::Delete($path,"ignorereadonly=$force")        
     }
     if([Alphaleonis.Win32.Filesystem.Directory]::Exists($path)){
-        if($force){
-            [Alphaleonis.Win32.Filesystem.Directory]::Delete($path,"ignorereadonly=true")
-        }else{
-            [Alphaleonis.Win32.Filesystem.Directory]::Delete($path)
-        }
+        [Alphaleonis.Win32.Filesystem.Directory]::Delete($path,"ignorereadonly=$force","recursive=$recurse")       
     }
+}
+
+Function Get-ItemAlpha{
+    param(
+      [parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true)]
+        $Path
+    )
+    Import-AlphaModule
+    if([Alphaleonis.Win32.Filesystem.File]::Exists($path)){        
+        $return = New-Object Alphaleonis.Win32.Filesystem.FileInfo($Path)
+    }
+    if([Alphaleonis.Win32.Filesystem.Directory]::Exists($path)){
+        $return = New-Object Alphaleonis.Win32.Filesystem.DirectoryInfo($Path)
+    }
+    return $return
 }
 
 
@@ -76,4 +75,5 @@ Function Remove-ItemAlpha {
 <#
 Export-ModuleMember Copy-ItemAlpha
 Export-ModuleMember Remove-ItemAlpha
+Export-ModuleMember Get-ItemAlpha
 #>
