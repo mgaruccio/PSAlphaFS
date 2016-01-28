@@ -21,8 +21,8 @@ Function Copy-ItemAlpha{
         $sourceFile,
       [parameter(Mandatory=$true,Position=2)]
         $destinationFile,
-      [parameter(Mandatory=$False)]
-        [switch]$force
+      [parameter(Mandatory=$false)]
+        [switch]$force=$false
     )    
 
     Import-AlphaModule
